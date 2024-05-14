@@ -32,10 +32,10 @@ class JobijobaClient {
         return $content['token'];
     }
 
-    public function getJobs($page = 1, $limit = 10, $country = 'fr'): array {
+    public function getJobs($query = '', $page = 1, $limit = 10, $country = 'fr'): array {
         $token = $this->retrieveToken($country);
         $params = [
-            'what' => '',
+            'what' => $query,
             'where' => 'Bordeaux',
             'page' => $page,
             'limit' => $limit

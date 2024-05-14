@@ -1,0 +1,66 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+<header>
+    <div class="container flex">
+        <div class="logo">Offres d'emploi à Bordeaux</div>
+        <div class="grow"></div>
+        <a class="button" target="_blank" href="https://gagnaire.dev"><i class="fa-solid fa-arrow-up-right-from-square"></i> En savoir plus</a>
+    </div>
+    <div class="container search-form">
+        <form method="get" action="/">
+            <input type="hidden" name="page" value="1" />
+            <input type="text" name="q" value="{{ query | escape }}" placeholder="Développeur JS génialissime" />
+            <button>
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+        </form>
+    </div>
+</header>
+
+<main>
+    <div class="container">
+        <div class="ads">
+            <h1>Résultats de votre recherche :</h1>
+            {% for ad in ads %}
+                <div class="ad">
+                    <div class="title">{{ ad.title }}</div>
+                    <div class="tags">
+                        <div class="tag"><i class="fa-solid fa-location-dot"></i> {{ ad.postalCode }} {{ ad.city }}</div>
+                        {% if ad.contractType %}<div class="tag"><i class="fa-solid fa-file-signature"></i> {{ ad.contractType | join(', ') }}</div>{% endif %}
+                        {% if ad.company %}<div class="tag"><i class="fa-solid fa-building"></i> {{ ad.company }}</div>{% endif %}
+                        {% if ad.salary %}<div class="tag"><i class="fa-solid fa-euro-sign"></i> {{ ad.salary }}</div>{% endif %}
+                    </div>
+                    <div class="footer">
+                        <div class="date">
+                            {{ ad.publicationDate | format_date(locale='fr') }}
+                        </div>
+                        <div class="grow"></div>
+                        <a class="button" target="_blank" href="{{ ad.link }}"><div>Postuler</div></a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="pagination">
+            <div class="total">
+                {{ total }} offres
+            </div>
+            <div class="arrows">
+                {% if prevPage %}
+                    <a href="{{ prevPage }}" class="button">
+                        ←
+                    </a>
+                {% endif %}
+                <div class="current">
+                    Page {{ page }} / {{ maxPage }}
+                </div>
+                {% if nextPage %}
+                    <a href="{{ nextPage }}" class="button">
+                        →
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

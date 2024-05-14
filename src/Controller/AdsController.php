@@ -19,6 +19,8 @@ class AdsController extends AbstractController {
     public function index(Request $request): Response {
         $query = $request->query->get('q') ?? '';
         $page = intval($request->query->get('page') ?? 1);
+        if ($page < 1)
+            $page = 1;
         $limit = 10;
         $ads = $this->jobijobaService->getJobs(
             $query,
